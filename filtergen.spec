@@ -1,8 +1,8 @@
 Summary:	Simple packet filter generator
 Summary(pl):	Prosty generator filtrów pakietów
 Name:		filter
-Version:	0.5
-Release:	5
+Version:	0.8
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
@@ -60,8 +60,6 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/%{name}
 touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/generated_rules
 
-gzip -9nf README HONESTY HISTORY TODO tests/*
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -83,7 +81,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz tests
+%doc README HONESTY HISTORY TODO tests
 %attr(755,root,root) %{_sbindir}/filtergen
 %dir %{_sysconfdir}/%{name}
 %attr(600,root,root) %{_sysconfdir}/%{name}/simple.conf
