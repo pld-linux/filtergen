@@ -2,7 +2,7 @@ Summary:	Simple packet filter generator
 Summary(pl):	Prosty generator filtrów pakietów
 Name:		filter
 Version:	0.5
-Release:	4
+Release:	5
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
