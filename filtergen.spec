@@ -1,7 +1,7 @@
 Summary:	Simple packet filter generator
 Summary(pl):	Prosty generator filtrów pakietów
 Name:		filter
-Version:	0.8
+Version:	0.9
 Release:	1
 License:	GPL
 Group:		Networking/Utilities
