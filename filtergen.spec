@@ -13,8 +13,8 @@ Source3:	%{name}.init
 Patch0:		%{name}-types.patch
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
-Prereq:		rc-scripts
-Prereq:		/sbin/chkconfig
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 Provides:	firewall
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
