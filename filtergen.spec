@@ -2,13 +2,14 @@ Summary:	Simple packet filter generator
 Summary(pl):	Prosty generator filtrów pakietów
 Name:		filter
 Version:	0.9
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.sysconfig
 Source3:	%{name}.init
+Patch0:		%{name}-types.patch
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
 Prereq:		rc-scripts
@@ -45,9 +46,12 @@ Przeczytaj plik HONESTY!
 
 %prep
 %setup -q
+%patch -p1
 
 %build
-%{__make}
+%{__make} \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags} -Wall -Werror"
 
 %install
 rm -rf $RPM_BUILD_ROOT
