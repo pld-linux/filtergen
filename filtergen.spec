@@ -1,6 +1,6 @@
 Summary:	Simple packet filter generator
 Name:		filter
-Version:	0.3
+Version:	0.5
 Release:	1
 License:	GPL
 Group:		Networking/Utilities
