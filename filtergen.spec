@@ -1,21 +1,21 @@
 Summary:	Simple packet filter generator
 Summary(pl):	Prosty generator filtrów pakietów
-Name:		filter
-Version:	0.9
-Release:	3
+Name:		filtergen
+Version:	0.11
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
-# Source0-md5:	dda501b978046a1ea4bf764677e4d5cf
-Source1:	%{name}.conf
-Source2:	%{name}.sysconfig
-Source3:	%{name}.init
-Patch0:		%{name}-types.patch
+# Source0-md5:	de33c1dce928fe240b036498e56e545f
+Source1:	filter.conf
+Source2:	filter.sysconfig
+Source3:	filter.init
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Provides:	firewall
+Obsoletes:	filter
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -47,54 +47,53 @@ Przeczytaj plik HONESTY!
 
 %prep
 %setup -q
-%patch -p1
 
 %build
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -Wall -Werror"
+	CFLAGS="%{rpmcflags} -Wall -Werror -Wno-unused"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_sysconfdir}/%{name}} \
-	$RPM_BUILD_ROOT%{_sysconfdir}/{sysconfig,rc.d/init.d} \
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_sysconfdir}/filter} \
+	$RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d} \
 	$RPM_BUILD_ROOT%{_mandir}/man{5,7,8}
 
 install filtergen $RPM_BUILD_ROOT%{_sbindir}
 install filter_syntax.5 $RPM_BUILD_ROOT%{_mandir}/man5
 install filter_backends.7 $RPM_BUILD_ROOT%{_mandir}/man7
 install filtergen.8 $RPM_BUILD_ROOT%{_mandir}/man8
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/simple.conf
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/filter/simple.conf
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/generated_rules
+touch $RPM_BUILD_ROOT%{_sysconfdir}/filter/generated_rules
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/chkconfig --add filter
-if [ -f /var/lock/subsys/filter ]; then
-	/etc/rc.d/init.d/filter restart >&2
+/sbin/chkconfig --add filtergen
+if [ -f /var/lock/subsys/filtergen ]; then
+	/etc/rc.d/init.d/filtergen restart >&2
 else
-	echo "Run \"/etc/rc.d/init.d/filter start\" to start filter"
+	echo "Run \"/etc/rc.d/init.d/filtergen start\" to start filtergen"
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/filter ]; then
-		/etc/rc.d/init.d/filter stop >&2
+	if [ -f /var/lock/subsys/filtergen ]; then
+		/etc/rc.d/init.d/filtergen stop >&2
 	fi
-	/sbin/chkconfig --del filter
+	/sbin/chkconfig --del filtergen
 fi
 
 %files
 %defattr(644,root,root,755)
 %doc README HONESTY HISTORY TODO tests
 %attr(755,root,root) %{_sbindir}/filtergen
-%dir %{_sysconfdir}/%{name}
-%attr(600,root,root) %{_sysconfdir}/%{name}/simple.conf
-%attr(600,root,root) %{_sysconfdir}/%{name}/generated_rules
+%dir %{_sysconfdir}/filter
+%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/filter/simple.conf
+%attr(600,root,root) %{_sysconfdir}/filter/generated_rules
 %attr(600,root,root) /etc/sysconfig/%{name}
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %{_mandir}/man5/*
