@@ -75,17 +75,17 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add filter
 if [ -f /var/lock/subsys/filter ]; then
-        /etc/rc.d/init.d/filter restart >&2
+	/etc/rc.d/init.d/filter restart >&2
 else
-        echo "Run \"/etc/rc.d/init.d/filter start\" to start filter"
+	echo "Run \"/etc/rc.d/init.d/filter start\" to start filter"
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-        if [ -f /var/lock/subsys/filter ]; then
-                /etc/rc.d/init.d/filter stop >&2
-        fi
-        /sbin/chkconfig --del filter
+	if [ -f /var/lock/subsys/filter ]; then
+		/etc/rc.d/init.d/filter stop >&2
+	fi
+	/sbin/chkconfig --del filter
 fi
 
 %files
