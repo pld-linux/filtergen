@@ -10,7 +10,6 @@ Group(pl):	Sieciowe/Narzêdzia
 Group(pt_BR):	Rede/Utilitários
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
-Patch0:		%{name}-equalsigns.patch
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
 Provides:	firewall
@@ -31,7 +30,6 @@ Please read HONESTY file!
 
 %prep
 %setup  -q
-%patch0 -p1
 
 %build
 %{__make}
