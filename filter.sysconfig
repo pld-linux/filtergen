@@ -1,0 +1,3 @@
+CONFIG=/etc/filter/simple.conf
+GEN_CONFIG=/etc/filter/generated_rules
+SUBSYS=/var/lock/subsys/filter
