@@ -1,0 +1,41 @@
+diff -Nru filter-0.3.orig/fg-iptables.c filter-0.3/fg-iptables.c
+--- filter-0.3.orig/fg-iptables.c	Sun Oct  7 13:49:27 2001
++++ filter-0.3/fg-iptables.c	Sun Oct  7 13:50:55 2001
+@@ -52,15 +52,15 @@
+ 		needret++;
+ 		APPSS2(rule, "-p", "tcp");
+ 		APPSS2(rule_r, "-p", "tcp");
+-		APPS(rule, "-m state --state=NEW,ESTABLISHED");
+-		APPS(rule_r, "-m state --state=ESTABLISHED ! --syn");
++		APPS(rule, "-m state --state NEW,ESTABLISHED");
++		APPS(rule_r, "-m state --state ESTABLISHED ! --syn");
+ 		break;
+ 	case UDP:
+ 		needret++;
+ 		APPSS2(rule, "-p", "udp");
+ 		APPSS2(rule_r, "-p", "udp");
+-		APPS(rule, "-m state --state=NEW,ESTABLISHED");
+-		APPS(rule_r, "-m state --state=ESTABLISHED");
++		APPS(rule, "-m state --state NEW,ESTABLISHED");
++		APPS(rule_r, "-m state --state ESTABLISHED");
+ 		break;
+ 	default: abort();
+ 	}
+@@ -81,13 +81,13 @@
+ 	case UDP: case TCP:
+ 		if(ent->u.ports.src) {
+ 			NEGA(rule, SPORT); NEGA(rule_r, SPORT);
+-			APPS2(rule, "--sport=", ent->u.ports.src);
+-			APPS2(rule_r, "--dport=", ent->u.ports.src);
++			APPS2(rule, "--sport ", ent->u.ports.src);
++			APPS2(rule_r, "--dport ", ent->u.ports.src);
+ 		}
+ 		if(ent->u.ports.dst) {
+ 			NEGA(rule, DPORT); NEGA(rule_r, DPORT);
+-			APPS2(rule, "--dport=", ent->u.ports.dst);
+-			APPS2(rule_r, "--sport=", ent->u.ports.dst);
++			APPS2(rule, "--dport ", ent->u.ports.dst);
++			APPS2(rule_r, "--sport ", ent->u.ports.dst);
+ 		}
+ 		break;
+ 	default:
