@@ -2,7 +2,7 @@ Summary:	Simple packet filter generator
 Summary(pl):	Prosty generator filtrów pakietów
 Name:		filter
 Version:	0.9
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
@@ -56,9 +56,13 @@ Przeczytaj plik HONESTY!
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_sysconfdir}/%{name}} \
-	$RPM_BUILD_ROOT%{_sysconfdir}/{sysconfig,rc.d/init.d}
+	$RPM_BUILD_ROOT%{_sysconfdir}/{sysconfig,rc.d/init.d} \
+	$RPM_BUILD_ROOT%{_mandir}/man{5,7,8}
 
 install filtergen $RPM_BUILD_ROOT%{_sbindir}
+install filter_syntax.5 $RPM_BUILD_ROOT%{_mandir}/man5
+install filter_backends.7 $RPM_BUILD_ROOT%{_mandir}/man7
+install filtergen.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/simple.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/%{name}
@@ -92,3 +96,6 @@ fi
 %attr(600,root,root) %{_sysconfdir}/%{name}/generated_rules
 %attr(600,root,root) %{_sysconfdir}/sysconfig/%{name}
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
+%{_mandir}/man5/*
+%{_mandir}/man7/*
+%{_mandir}/man8/*
