@@ -48,6 +48,7 @@ find_filter() {
 	fi
 }
 
+RETVAL=0
 # See how we were called.
 case "$1" in
   start)
@@ -59,8 +60,8 @@ case "$1" in
 		show "Setting filter rules"
 		busy
 		sh "$GEN_CONFIG"
-		RETVAL=$?
-		if [ $RETVAL = 0 ]; then
+		[ $? -ne 0 ] && RETVAL=1
+		if [ $RETVAL -eq 0 ]; then
 			touch "$SUBSYS"
 			ok
 		else
@@ -86,9 +87,10 @@ case "$1" in
 	umask 077
 	filtergen "$CONFIG" `basename $filter` > "$GEN_CONFIG"
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
+	exit $?
 	;;
   status)
 	confstatus
@@ -106,10 +108,11 @@ case "$1" in
 		nls "filter rules applied"
 		;;
 	esac
+	[ "$confstatus" -ne 0 ] && RETVAL=3
 	;;
   *)
-	msg_usage "$0 {start|stop|init|restart|reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|init|restart|force-reload|status}"
+	exit 3
 	;;
 esac
 
