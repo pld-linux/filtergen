@@ -11,11 +11,11 @@ Group(pl):	Sieciowe/Narzêdzia
 Group(pt_BR):	Rede/Utilitários
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
-Source2: %{name}.sysconfig
-Source3: %{name}.init
+Source2:	%{name}.sysconfig
+Source3:	%{name}.init
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
-Prereq:	/sbin/chkconfig
+Prereq:		rc-scripts
 Provides:	firewall
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
