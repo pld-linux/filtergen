@@ -18,99 +18,99 @@ SUBSYS=/var/lock/subsys/filter
 
 # Check that networking is up.
 # if is_no "${NETWORKING}" ; then
-#    msg_network_down "filter"
+#	msg_network_down "filter"
 # 	exit 1
 # fi
 
 confstatus() {
-   if [ ! -e $GEN_CONFIG ]; then
-      confstatus=3
-   elif [ $GEN_CONFIG -ot $CONFIG ]; then
-      confstatus=2
-   elif [ $SUBSYS -ot $GEN_CONFIG ]; then
-      confstatus=1
-   else
-      confstatus=0
-   fi
+	if [ ! -e "$GEN_CONFIG" ]; then
+		confstatus=3
+	elif [ "$GEN_CONFIG" -ot "$CONFIG" ]; then
+		confstatus=2
+	elif [ "$SUBSYS" -ot "$GEN_CONFIG" ]; then
+		confstatus=1
+	else
+		confstatus=0
+	fi
 }
 
 find_filter() {
-   iptables=`which iptables 2> /dev/null`
-   ipchains=`which ipchains 2> /dev/null`
-   if [ -n "$iptables" ]; then
-      filter=$iptables
-   elif [ -n "$ipchains" ]; then
-      filter=$ipchains
-   else
-      nls "ipchains/iptables not found. cannot continue"
-      exit 1
-      filter=
-   fi
+	iptables=`which iptables 2> /dev/null`
+	ipchains=`which ipchains 2> /dev/null`
+	if [ -n "$iptables" ]; then
+		filter=$iptables
+	elif [ -n "$ipchains" ]; then
+		filter=$ipchains
+	else
+		nls "ipchains/iptables not found. Cannot continue"
+		filter=
+		exit 1
+	fi
 }
 
 # See how we were called.
 case "$1" in
   start)
-      confstatus
-      if [ $confstatus -ge 0 ]; then
-         if [ $confstatus -gt 0 ]; then
-            $0 init
-         fi
-         show "Setting filter rules"
-         busy
-         sh $GEN_CONFIG
-         RETVAL=$?
-         if [ $RETVAL = 0 ]; then
-            touch $SUBSYS
-            ok
-         else
-            fail
-         fi
-      fi
-      ;;
+	confstatus
+	if [ $confstatus -ge 0 ]; then
+		if [ $confstatus -gt 0 ]; then
+			$0 init
+		fi
+		show "Setting filter rules"
+		busy
+		sh "$GEN_CONFIG"
+		RETVAL=$?
+		if [ $RETVAL = 0 ]; then
+			touch "$SUBSYS"
+			ok
+		else
+			fail
+		fi
+	fi
+	;;
   stop)
-  show "Flushing filter rules"
-      find_filter
-      $filter -F
-      RETVAL=$?
-      if [ $RETVAL = 0 ]; then
-         rm -f $SUBSYS
-         ok
-      else
-         fail
-      fi
-      ;;
+	show "Flushing filter rules"
+	find_filter
+	$filter -F
+	RETVAL=$?
+	if [ $RETVAL = 0 ]; then
+		rm -f "$SUBSYS"
+		ok
+	else
+		fail
+	fi
+	;;
   init)
-      show "Generating $GEN_CONFIG"
-      find_filter
-      umask 077
-      filtergen $CONFIG `basename $filter` > $GEN_CONFIG
-      ;;
-  restart)
-      $0 stop
-      $0 start
-      ;;
+	show "Generating %s" "$GEN_CONFIG"
+	find_filter
+	umask 077
+	filtergen "$CONFIG" `basename $filter` > "$GEN_CONFIG"
+	;;
+  restart|reload)
+	$0 stop
+	$0 start
+	;;
   status)
-      confstatus
-      case "$confstatus" in
-         3)
-         nls "$GEN_CONFIG not generated"
-         ;;
-         2)
-         nls "$GEN_CONFIG outdated"
-         ;;
-         1)
-         nls "$GEN_CONFIG not applied"
-         ;;
-         0)
-         nls "filter rules applied"
-         ;;
-      esac
-      ;;
+	confstatus
+	case "$confstatus" in
+	  3)
+		nls "%s not generated" "$GEN_CONFIG"
+		;;
+	  2)
+		nls "%s outdated" "$GEN_CONFIG"
+		;;
+	  1)
+		nls "%s not applied" "$GEN_CONFIG"
+		;;
+	  0)
+		nls "filter rules applied"
+		;;
+	esac
+	;;
   *)
-      msg_Usage "$0 {start|stop|restart|init|status}"
-      exit 1
-      ;;
+	msg_usage "$0 {start|stop|init|restart|reload|status}"
+	exit 1
+	;;
 esac
 
 exit $RETVAL
