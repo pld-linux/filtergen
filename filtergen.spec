@@ -6,6 +6,7 @@ Release:	3
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
+# Source0-md5:	dda501b978046a1ea4bf764677e4d5cf
 Source1:	%{name}.conf
 Source2:	%{name}.sysconfig
 Source3:	%{name}.init
