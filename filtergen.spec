@@ -2,7 +2,7 @@ Summary:	Simple packet filter generator
 Summary(pl):	Prosty generator filtrów pakietów
 Name:		filter
 Version:	0.5
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
@@ -11,8 +11,11 @@ Group(pl):	Sieciowe/Narzêdzia
 Group(pt_BR):	Rede/Utilitários
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
+Source2: %{name}.sysconfig
+Source3: %{name}.init
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
+Prereq:	/sbin/chkconfig
 Provides:	firewall
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -51,19 +54,43 @@ Przeczytaj plik HONESTY!
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_sysconfdir}/%{name}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_sysconfdir}/%{name}} \
+	$RPM_BUILD_ROOT%{_sysconfdir}/{sysconfig,rc.d/init.d}
 
 install filtergen $RPM_BUILD_ROOT%{_sbindir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/simple.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/%{name}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/generated_rules
 
 gzip -9nf README HONESTY HISTORY TODO tests/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+/sbin/chkconfig --add filter
+
+if [ -f /var/lock/subsys/filter ]; then
+        /etc/rc.d/init.d/filter restart >&2
+else
+        echo "Run \"/etc/rc.d/init.d/filter start\" to start filter"
+fi
+
+%preun
+if [ "$1" = "0" ]; then
+        if [ -f /var/lock/subsys/filter ]; then
+                /etc/rc.d/init.d/filter stop >&2
+        fi
+        /sbin/chkconfig --del filter
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc *.gz tests
 %attr(755,root,root) %{_sbindir}/filtergen
 %dir %{_sysconfdir}/%{name}
-%{_sysconfdir}/%{name}/simple.conf
+%attr(600,root,root) %{_sysconfdir}/%{name}/simple.conf
+%attr(600,root,root) %{_sysconfdir}/%{name}/generated_rules
+%attr(600,root,root) %{_sysconfdir}/sysconfig/%{name}
+%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
