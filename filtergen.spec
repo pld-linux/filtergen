@@ -2,7 +2,7 @@ Summary:	Simple packet filter generator
 Summary(pl):	Prosty generator filtrów pakietów
 Name:		filter
 Version:	0.5
-Release:	3
+Release:	4
 License:	GPL
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
@@ -16,6 +16,7 @@ Source3:	%{name}.init
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
 Prereq:		rc-scripts
+Prereq:		/sbin/chkconfig
 Provides:	firewall
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -70,7 +71,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add filter
-
 if [ -f /var/lock/subsys/filter ]; then
         /etc/rc.d/init.d/filter restart >&2
 else
