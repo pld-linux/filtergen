@@ -64,8 +64,8 @@ install filter_syntax.5 $RPM_BUILD_ROOT%{_mandir}/man5
 install filter_backends.7 $RPM_BUILD_ROOT%{_mandir}/man7
 install filtergen.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/simple.conf
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/%{name}
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/generated_rules
 
 %clean
@@ -94,8 +94,8 @@ fi
 %dir %{_sysconfdir}/%{name}
 %attr(600,root,root) %{_sysconfdir}/%{name}/simple.conf
 %attr(600,root,root) %{_sysconfdir}/%{name}/generated_rules
-%attr(600,root,root) %{_sysconfdir}/sysconfig/%{name}
-%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
+%attr(600,root,root) /etc/sysconfig/%{name}
+%attr(754,root,root) /etc/rc.d/init.d/%{name}
 %{_mandir}/man5/*
 %{_mandir}/man7/*
 %{_mandir}/man8/*
