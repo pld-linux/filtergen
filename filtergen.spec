@@ -5,10 +5,6 @@ Version:	0.5
 Release:	4
 License:	GPL
 Group:		Networking/Utilities
-Group(de):	Netzwerkwesen/Werkzeuge
-Group(es):	Red/Utilitarios
-Group(pl):	Sieciowe/Narzêdzia
-Group(pt_BR):	Rede/Utilitários
 Source0:	http://hairy.beasts.org/filter/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.sysconfig
