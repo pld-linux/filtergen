@@ -7,20 +7,11 @@
 # Source function library
 . /etc/rc.d/init.d/functions
 
-# Get network config
-. /etc/sysconfig/network
-
 # Get service config
 CONFIG=/etc/filter/simple.conf
 GEN_CONFIG=/etc/filter/generated_rules
 SUBSYS=/var/lock/subsys/filter
 [ -f /etc/sysconfig/filter ] && . /etc/sysconfig/filter
-
-# Check that networking is up.
-# if is_no "${NETWORKING}" ; then
-#	msg_network_down "filter"
-# 	exit 1
-# fi
 
 confstatus() {
 	if [ ! -e "$GEN_CONFIG" ]; then
