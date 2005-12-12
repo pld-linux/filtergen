@@ -12,8 +12,8 @@ Source2:	filter.sysconfig
 Source3:	filter.init
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
-PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 Provides:	firewall
 Obsoletes:	filter
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -92,9 +92,9 @@ fi
 %doc README HONESTY HISTORY TODO tests
 %attr(755,root,root) %{_sbindir}/filtergen
 %dir %{_sysconfdir}/filter
-%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/filter/simple.conf
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/filter/simple.conf
 %attr(600,root,root) %{_sysconfdir}/filter/generated_rules
-%attr(600,root,root) /etc/sysconfig/%{name}
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/%{name}
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %{_mandir}/man5/*
 %{_mandir}/man7/*
