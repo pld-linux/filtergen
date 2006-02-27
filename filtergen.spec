@@ -12,6 +12,7 @@ Source2:	filter.sysconfig
 Source3:	filter.init
 URL:		http://hairy.beasts.org/filter/
 BuildRequires:	flex
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 Provides:	firewall
@@ -73,17 +74,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add filtergen
-if [ -f /var/lock/subsys/filtergen ]; then
-	/etc/rc.d/init.d/filtergen restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/filtergen start\" to start filtergen"
-fi
+%service filtergen restart "filtergen"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/filtergen ]; then
-		/etc/rc.d/init.d/filtergen stop >&2
-	fi
+	%service filtergen stop
 	/sbin/chkconfig --del filtergen
 fi
 
