@@ -1,5 +1,5 @@
 Summary:	Simple packet filter generator
-Summary(pl.UTF-8):   Prosty generator filtrów pakietów
+Summary(pl.UTF-8):	Prosty generator filtrów pakietów
 Name:		filtergen
 Version:	0.11
 Release:	2
