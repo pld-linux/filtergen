@@ -1,5 +1,5 @@
 Summary:	Simple packet filter generator
-Summary(pl):	Prosty generator filtrów pakietów
+Summary(pl.UTF-8):   Prosty generator filtrÃ³w pakietÃ³w
 Name:		filtergen
 Version:	0.11
 Release:	2
@@ -32,17 +32,17 @@ limitations which need to be removed, but is still a useful tool.
 
 Please read HONESTY file!
 
-%description -l pl
-To jest narzêdzie do generowania regu³ filtrowania pakietów z
-wzglêdnie wysokopoziomowego jêzyka opisu. Nie obs³uguje wszystkich
-zaawansowanych mo¿liwo¶ci najnowszych filtrów pakietów, ale wspiera
-przyzwoity podzbiór, wystarczaj±cy dla typowych stacji roboczych.
+%description -l pl.UTF-8
+To jest narzÄ™dzie do generowania reguÅ‚ filtrowania pakietÃ³w z
+wzglÄ™dnie wysokopoziomowego jÄ™zyka opisu. Nie obsÅ‚uguje wszystkich
+zaawansowanych moÅ¼liwoÅ›ci najnowszych filtrÃ³w pakietÃ³w, ale wspiera
+przyzwoity podzbiÃ³r, wystarczajÄ…cy dla typowych stacji roboczych.
 
-Aktualnie obs³uguje tylko linuksowe iptables i ipchains. Obs³uga Cisco
-IOS jest zaczêta, ale nie kompletna. ipfilter Darrena Reeda jest
-obs³ugiwany czê¶ciowo. Nie generuje optymalnych regu³ek i ma parê
-ograniczeñ, które powinny byæ usuniête, ale mimo to jest u¿ytecznym
-narzêdziem.
+Aktualnie obsÅ‚uguje tylko linuksowe iptables i ipchains. ObsÅ‚uga Cisco
+IOS jest zaczÄ™ta, ale nie kompletna. ipfilter Darrena Reeda jest
+obsÅ‚ugiwany czÄ™Å›ciowo. Nie generuje optymalnych reguÅ‚ek i ma parÄ™
+ograniczeÅ„, ktÃ³re powinny byÄ‡ usuniÄ™te, ale mimo to jest uÅ¼ytecznym
+narzÄ™dziem.
 
 Przeczytaj plik HONESTY!
 
